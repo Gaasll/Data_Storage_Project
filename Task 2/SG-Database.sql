@@ -17,8 +17,19 @@ create table person (
 	zip VARCHAR (500), 
 	city VARCHAR (500),
 	);
-
+	
 ALTER TABLE person ADD CONSTRAINT PK_person PRIMARY KEY (person_id);
+
+
+CREATE TABLE sibling (
+ person_number VARCHAR(500) NOT NULL,
+ student_id SERIAL NOT NULL
+);
+
+ALTER TABLE sibling ADD CONSTRAINT PK_sibling PRIMARY KEY (person_number,person_id);	
+ALTER TABLE sibling ADD CONSTRAINT FK_sibling_0 FOREIGN KEY (person_id) REFERENCES person (person_id) ON DELETE CASCADE;
+
+
 
 
 CREATE TABLE instructor (
