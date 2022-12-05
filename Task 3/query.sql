@@ -1,5 +1,12 @@
 -- Select all lessons given each month in a year
-CREATE VIEW lesson_count_month AS
+CREATE VIEW lessons_per_month  AS
+    SELECT
+	EXTRACT(month FROM time) AS month,
+	count(*) FROM lesson WHERE EXTRACT(year FROM time) = '2019' GROUP BY EXTRACT(month FROM time)
+	ORDER BY EXTRACT(month FROM time) ASC;
+	
+-- Show how many siblings a student has
+CREATE VIEW no_of_siblings AS
     SELECT
 	EXTRACT(month FROM time) AS month,
 	count(*) FROM lesson WHERE EXTRACT(YEAR FROM time) = '2021' GROUP BY EXTRACT(month FROM time)
