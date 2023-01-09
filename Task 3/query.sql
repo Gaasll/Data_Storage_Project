@@ -1,5 +1,5 @@
 -- Select all lessons given each month in a year
-CREATE VIEW lesson_count_per_month AS
+CREATE VIEW lessons_per_month AS
 SELECT 
 EXTRACT (MONTH FROM CAST (lesson.lesson_date AS timestamp)) AS month_nr,
 to_char( lesson.lesson_date , 'MON') AS "month",
@@ -8,9 +8,8 @@ FROM lesson
 WHERE EXTRACT(YEAR FROM CAST(lesson.lesson_date AS timestamp)) = 2023
 GROUP BY month_nr, month
 ORDER BY month_nr;
-_____________________________________________________________________________
 
-
+-- count nr of siblings
 CREATE VIEW nr_of_siblings AS
 SELECT amount_of_siblings, COUNT(*) as "number of students"
 FROM (SELECT a.person_id, COUNT (sibling_person_number) as amount_of_siblings
@@ -19,7 +18,7 @@ GROUP BY a.person_id
 ORDER BY amount_of_siblings) AS students_siblings
 GROUP BY amount_of_siblings;
 
-____________________________
+-- instructor lessons given this month
 SELECT a.instructor_id, a.first_name, COUNT(*) as lessons
 FROM instructor as a INNER JOIN lesson as b ON a.instructor_id = b.instructor_id
 WHERE EXTRACT(YEAR FROM CAST(b.lesson_date AS timestamp)) = EXTRACT(YEAR FROM CURRENT_DATE)
@@ -29,9 +28,7 @@ HAVING COUNT(*) >= 1
 ORDER BY lessons DESC;
 
 
-
-___________________________
-
+-- ensembles given next week 
 CREATE VIEW ensembles_next_week AS
 SELECT a.lesson_id, l.genre,
  to_char( l.lesson_date , 'DY') AS "week day",
